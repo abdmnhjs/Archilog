@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Create</title>
+</head>
+<body>
+<a href="{{ url_for('menu') }}">
+    <button>Retour</button>
+</a>
+    <h1>Gestion de budget</h1>
+    <form method="POST">
+        <label>Nom : </label>
+        <input type="text" name="nom" required><br><br>
+        <label>Catégorie (optionnel) : </label>
+        <input type="text" name="categorie"><br><br>
+        <label>Prix : </label>
+        <input type="float" name="prix" required><br><br>
+        <input type="submit" value="Envoyer">
+    </form>
+    {% if message %}
+        <h2>{{ message }}</h2>
+    {% endif %}
+</body>
+</html>

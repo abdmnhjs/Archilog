@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Get Update or Delete</title>
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+{% if message %}
+<h1>{{ message }}</h1>
+{% endif %}
+<a href="{{ url_for('menu') }}">
+    <button>Retour</button>
+</a>
+<form method="POST">
+    <input type="submit" name="exportCSV" value="Exporter les données dans un fichier CSV">
+</form>
+<form method="POST" enctype="multipart/form-data">
+    <input type="file" name="csv_file" accept=".csv">
+    <input type="submit" name="importCSV" value="Importer les données d'un fichier CSV">
+    <p>Le fichier csv doit suivre la forme suivante pour chacune des lignes, voici un exemple avec l'entête à inclure : </p>
+    <pre>
+    name,amount,category
+    chat,1,animal
+    chien,2,animal
+    voiture,2.4,
+    </pre>
+
+</form>
+<h1>Rechercher un produit : </h1>
+<form method="POST">
+        <label>ID : </label>
+<input type="text" name="id" required pattern="[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}" title="Veuillez entrer un UUID valide (ex: 123e4567-e89b-12d3-a456-426614174000)">
+<br><br>
+        <input type="submit" name="Rechercher" value="Rechercher">
+</form>
+{% if searched %}
+<table>
+    <tr>
+      <th>Id</th>
+      <th>Catégorie</th>
+      <th>Nom</th>
+      <th>Prix</th>
+    </tr>
+      <tr>
+        <td>{{ searched.id }}</td>
+        <td>{{ searched.category }}</td>
+        <td>{{ searched.name }}</td>
+        <td>{{ searched.amount }}</td>
+      </tr>
+  </table>
+{% endif %}
+
+<h1>Modifier un produit existant : </h1>
+<form method="POST">
+        <label>ID : </label>
+<input type="text" name="id" required pattern="[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}" title="Veuillez entrer un UUID valide (ex: 123e4567-e89b-12d3-a456-426614174000)">
+<br><br>
+        <label>Nom : </label>
+        <input type="text" name="nom" required><br><br>
+        <label>Catégorie (optionnel) : </label>
+        <input type="text" name="categorie"><br><br>
+        <label>Prix : </label>
+        <input type="float" name="prix" required><br><br>
+        <input type="submit" name="Modifier" value="Modifier">
+</form>
+<h1>Supprimer un produit : </h1>
+<form method="POST">
+    <label>ID : </label>
+<input type="text" name="id" required pattern="[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}" title="Veuillez entrer un UUID valide (ex: 123e4567-e89b-12d3-a456-426614174000)">
+<br><br>
+        <input type="submit" name="Supprimer" value="Supprimer">
+</form>
+<h1>Vos produits : </h1>
+  <table>
+    <tr>
+      <th>Id</th>
+      <th>Catégorie</th>
+      <th>Nom</th>
+      <th>Prix</th>
+    </tr>
+    {% for entry in entries %}
+      <tr>
+        <td>{{ entry[0] }}</td>
+        <td>{{ entry[1] }}</td>
+        <td>{{ entry[2] }}</td>
+        <td>{{ entry[3] }}</td>
+      </tr>
+    {% endfor %}
+  </table>
+</body>
+</html>
